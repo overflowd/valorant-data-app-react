@@ -1,0 +1,15 @@
+body {
+  background-color: #303030 !important;
+}
+
+.bg-custom {
+  background-color: #e84b39 !important;
+}
+
+.navbar-nav .active {
+  color: #000 !important;
+}
+
+.navbar-nav a {
+  color: #fff;
+}
