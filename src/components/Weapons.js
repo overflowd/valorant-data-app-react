@@ -1,30 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import "./Agents.css";
 import WeaponCard from "./WeaponCard";
+import { WeaponsContext } from "../contexts/WeaponsContext";
 
 const Weapons = () => {
-  const [weapons, setWeapons] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchWeapons = async () => {
-      try {
-        const response = await fetch("https://valorant-api.com/v1/weapons");
-        const data = await response.json();
-        setWeapons(data.data);
-        setLoading(false);
-      } catch (error) {
-        setLoading(false);
-      }
-    };
-
-    fetchWeapons();
-  }, []);
+  const { state } = useContext(WeaponsContext);
 
   return (
     <>
-      {loading && <div>loading...</div>}
-      {weapons.map((weapon) => (
+      {state.loading && <div>loading...</div>}
+      {state.error && (
+        <div className="container alert alert-danger">{state.error}</div>
+      )}
+      {state.weapons.map((weapon) => (
         <WeaponCard weapon={weapon} key={weapon.uuid} />
       ))}
     </>

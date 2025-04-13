@@ -3,6 +3,9 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout";
 import Weapons from "./components/Weapons";
 import Maps from "./components/Maps";
+import { WeaponsContextProvider } from "./contexts/WeaponsContext";
+import { AgentsContextProvider } from "./contexts/AgentsContext";
+import { MapsContextProvider } from "./contexts/MapsContext";
 
 const router = createBrowserRouter([
   {
@@ -17,7 +20,15 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <AgentsContextProvider>
+      <WeaponsContextProvider>
+        <MapsContextProvider>
+          <RouterProvider router={router} />
+        </MapsContextProvider>
+      </WeaponsContextProvider>
+    </AgentsContextProvider>
+  );
 }
 
 export default App;

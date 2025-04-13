@@ -1,30 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import "./Agents.css";
 import AgentCard from "./AgentCard";
+import { AgentsContext } from "../contexts/AgentsContext";
 
 const Agents = () => {
-  const [agents, setAgents] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchAgents = async () => {
-      try {
-        const response = await fetch("https://valorant-api.com/v1/agents");
-        const data = await response.json();
-        setAgents(data.data);
-        setLoading(false);
-      } catch (error) {
-        setLoading(false);
-      }
-    };
-
-    fetchAgents();
-  }, []);
+  const { state } = useContext(AgentsContext);
 
   return (
     <>
-      {loading && <div>loading...</div>}
-      {agents
+      {state.loading && <div>loading...</div>}
+      {state.error && (
+        <div className="container alert alert-danger">{state.error}</div>
+      )}
+      {state.agents
         .filter((agent) => agent.role !== null)
         .map((agent) => (
           <AgentCard agent={agent} key={agent.uuid} />

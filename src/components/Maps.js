@@ -1,30 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import "./Agents.css";
 import MapCard from "./MapCard";
+import { MapsContext } from "../contexts/MapsContext";
 
 const Maps = () => {
-  const [maps, setMaps] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchMaps = async () => {
-      try {
-        const response = await fetch("https://valorant-api.com/v1/maps");
-        const data = await response.json();
-        setMaps(data.data);
-        setLoading(false);
-      } catch (error) {
-        setLoading(false);
-      }
-    };
-
-    fetchMaps();
-  }, []);
+  const { state } = useContext(MapsContext);
 
   return (
     <>
-      {loading && <div>loading...</div>}
-      {maps
+      {state.loading && <div>loading...</div>}
+      {state.error && (
+        <div className="container alert alert-danger">{state.error}</div>
+      )}
+      {state.maps
         .filter(
           (map, index, self) =>
             index === self.findIndex((m) => m.displayName === map.displayName)
